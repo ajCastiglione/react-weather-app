@@ -1,0 +1,78 @@
+/*************************
+Variables
+**************************/
+$white: #fff;
+$black: #000;
+$gray: #878787;
+$bg: #EBEBEB;
+$font: 'Ubuntu', sans-serif;
+
+/* Global section */
+body, html {
+  font-family: $font;
+}
+/* header section */
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+/* Weather data */
+.single-result {
+  margin: 1em 0;
+  padding-top: 1em;
+  padding-bottom: 1em;
+
+  h4 {
+    margin: 0;
+    color: $black;
+    font-weight: bold;
+  }
+  p {
+    margin: 0;
+    display: inline-block;
+  }
+}
+.Active {
+  background: $bg;
+}
+
+.weather-results {
+  img {
+    max-width: 100%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+  }
+}
+
+/* animation */
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
