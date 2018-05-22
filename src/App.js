@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Weather from './components/weather';
+import Weather from './components/weatherForcast';
 
 class App extends Component {
   render() {
