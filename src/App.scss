@@ -33,11 +33,16 @@ html {
       padding: 0.5em 0;
     }
   }
+  
 }
 
 .today-selected-container {
   color: $white;
   padding: 1em 0;
+  object  {
+    fill: orange !important;
+  }
+  
 }
 
 /* Weather forcast */
