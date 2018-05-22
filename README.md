@@ -10,5 +10,8 @@ This web app displays the current weather in your area and a 5 day forecast. (or
 
 Following those steps will give you the development build of the application. It can be compiled with npm run build.
 
-## Status
-Currently dealing with bug that keeps calling my function to fetch the weather. Figuring out way to catch upates to props.
+## Status / TODO
+<ol>
+<li>Implement -Today / selected- component showing icon on left, temps on right, forcast desc. under the temps or under the icon (whatever looks better)</li>
+<li>Add routing to adjust layout based on the day that is selected</li>
+</ol>

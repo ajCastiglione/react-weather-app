@@ -5,13 +5,16 @@ class Weather extends Component {
     
     state = {
         weatherData: {},
-        weeklyForecast: [],
+        weeklyForecast: JSON.parse(localStorage.forcast) || [],
         doOnce: false,
-        fetchForcast: this.props.getForcast
+        fetchForcast: false
     }
 
-    componentWillReceiveProps() {
-        console.log(this.props.getForcast)
+    componentDidUpdate() {
+        if(this.props.getForcast === true && this.state.fetchForcast !== this.props.getForcast) {
+            this.setState({ fetchForcast: this.props.getForcast});
+            this.fetchWeather();
+        }       
     }  
 
     fetchWeather = () => {
@@ -24,11 +27,13 @@ class Weather extends Component {
                     for(let day of r.daily.data) {
                         let unixConvert = new Date(day.time * 1000), days = unixConvert.getDay(), tempHigh = day.temperatureHigh;
                         let tempLow = day.temperatureLow, overview = day.summary, icon = day.icon, date = unixConvert.getDate();
+                        
                         switch(icon) {
                             case 'partly-cloudy-day': icon = '/climacons-master/Cloud-sun.svg'; break;
                             case 'rain': icon = '/climacons-master/cloud-rain.svg'; break;
                             case 'cloudy': icon = '/climacons-master/cloud.svg'; break;
                             case 'partly-cloudy-night' : icon = '/climacons-master/cloud-moon.svg'; break;
+                            case 'clear-day': icon = '/climacons-master/sun.svg'; break;
                             default: icon = 'https://cdn1.iconfinder.com/data/icons/image-manipulations/100/13-512.png';
                         }
                         switch(days) {
@@ -54,7 +59,6 @@ class Weather extends Component {
                     tempArr.pop();
                     this.setState({ weeklyForecast: tempArr });
                     localStorage.forcast = JSON.stringify(this.state.weeklyForecast);
-                    console.log( JSON.parse(localStorage.forcast) )
                 }.bind(this),
                 error: function (xhr, status, error) {
                     console.error(xhr, status, error);
