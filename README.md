@@ -11,4 +11,4 @@ This web app displays the current weather in your area and a 5 day forecast. (or
 Following those steps will give you the development build of the application. It can be compiled with npm run build.
 
 ## Status
-Still rather new to React so im figuring out the best ways to use async requests and pass data between components so it isn't working atm.
+Currently dealing with bug that keeps calling my function to fetch the weather. Figuring out way to catch upates to props.

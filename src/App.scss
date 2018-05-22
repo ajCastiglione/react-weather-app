@@ -37,8 +37,17 @@ body, html {
   font-size: large;
 }
 
-/* Weather data */
-.single-result {
+/* todays / selected day's weather */
+
+.weather-today {
+  background-image: url('http://getwallpapers.com/wallpaper/full/0/4/a/424222.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+/* Weather forcast */
+.forcast-result {
   margin: 1em 0;
   padding-top: 1em;
   padding-bottom: 1em;
@@ -53,8 +62,8 @@ body, html {
     display: inline-block;
   }
 }
-.Active {
-  background: $bg;
+.forcast-current-day {
+  display: none;
 }
 
 .weather-results {

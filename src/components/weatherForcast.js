@@ -2,40 +2,28 @@ import React, { Component } from 'react';
 import $ from 'jquery';
 
 class Weather extends Component {
+    
     state = {
-        supported: true,
-        lat: '',
-        long: '',
-        haveCoords: false,
         weatherData: {},
         weeklyForecast: [],
-        currentDay: '',
+        doOnce: false,
+        fetchForcast: this.props.getForcast
     }
 
-    componentDidMount() { 
-        if(!navigator.geolocation) return this.setState({ supported: false });
-        navigator.geolocation.getCurrentPosition((pos) => {
-
-            let lat =  pos.coords.latitude;
-            let long = pos.coords.longitude;
-            this.setState({ lat: lat, long: long, haveCoords: true });
-            this.fetchWeather();
-            
-        }, (err) => {console.error(err)}, {enableHighAccuracy: true} );
-        let today = new Date().getDate();
-        this.setState({ currentDay: today });
-    }
+    componentWillReceiveProps() {
+        console.log(this.props.getForcast)
+    }  
 
     fetchWeather = () => {
         $.ajax({
-            url: `https://api.darksky.net/forecast/fcf3fa7017a14fedf0bb5286d4596ff4/${this.state.lat},${this.state.long}?exlude=[minutely]?units=[uk2]`,
+            url: `https://api.darksky.net/forecast/d4c864a8c18bddde907e1454b383e71e/${this.props.lat},${this.props.long}?exlude=[minutely]?units=[uk2]`,
             dataType: 'JSONP',
             type: 'GET',
             success: function(r) {
                 let tempArr = [];
                     for(let day of r.daily.data) {
-                        let unixConvert = new Date(day.time * 1000);let days = unixConvert.getDay();let tempHigh = day.temperatureHigh;
-                        let tempLow = day.temperatureLow;let overview = day.summary;let icon = day.icon;let date = unixConvert.getDate();
+                        let unixConvert = new Date(day.time * 1000), days = unixConvert.getDay(), tempHigh = day.temperatureHigh;
+                        let tempLow = day.temperatureLow, overview = day.summary, icon = day.icon, date = unixConvert.getDate();
                         switch(icon) {
                             case 'partly-cloudy-day': icon = '/climacons-master/Cloud-sun.svg'; break;
                             case 'rain': icon = '/climacons-master/cloud-rain.svg'; break;
@@ -63,7 +51,10 @@ class Weather extends Component {
                             iconType: icon
                         });
                     }
-                    this.setState({ weeklyForecast: tempArr })
+                    tempArr.pop();
+                    this.setState({ weeklyForecast: tempArr });
+                    localStorage.forcast = JSON.stringify(this.state.weeklyForecast);
+                    console.log( JSON.parse(localStorage.forcast) )
                 }.bind(this),
                 error: function (xhr, status, error) {
                     console.error(xhr, status, error);
@@ -89,7 +80,7 @@ class Weather extends Component {
                     this.state.weeklyForecast.length !== 0 ?
 
                     this.state.weeklyForecast.map( (obj, index) => (
-                        <div className={`single-result col-xs-4 col-sm-3 col-lg-2 ${this.state.currentDay === obj.date ? 'Active' : ''}`} key={`sr-${index}`}>
+                        <div className={`forcast-result col-xs-4 col-sm-3 col-lg-2 ${this.props.today === obj.date ? 'forcast-current-day' : ''}`} key={`sr-${index}`}>
                             <div key={`weekDay-${index}`}>
                                 <h4 key={`day${index}`} >{obj.dayOfWeek.substring(0, 3)}</h4>
                             </div>
