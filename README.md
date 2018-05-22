@@ -14,4 +14,5 @@ Following those steps will give you the development build of the application. It
 <ol>
 <li>Implement -Today / selected- component showing icon on left, temps on right, forcast desc. under the temps or under the icon (whatever looks better)</li>
 <li>Add routing to adjust layout based on the day that is selected</li>
+<li>Add conditional statement to check if file type is SVG, else calling img tag opposed to object tag</li>
 </ol>

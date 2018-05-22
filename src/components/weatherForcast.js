@@ -34,7 +34,7 @@ class Weather extends Component {
                             case 'cloudy': icon = '/climacons-master/cloud.svg'; break;
                             case 'partly-cloudy-night' : icon = '/climacons-master/cloud-moon.svg'; break;
                             case 'clear-day': icon = '/climacons-master/sun.svg'; break;
-                            default: icon = 'https://cdn1.iconfinder.com/data/icons/image-manipulations/100/13-512.png';
+                            default: icon = '/climacons-master/compass.svg';
                         }
                         switch(days) {
                             case 0: days = 'Sunday'; break;
@@ -89,7 +89,9 @@ class Weather extends Component {
                                 <h4 key={`day${index}`} >{obj.dayOfWeek.substring(0, 3)}</h4>
                             </div>
                             <div key={`ico-${index}`}>
-                                <img src={obj.iconType} alt='weather icon' key={`img-${index}`}/>
+                                <object data={obj.iconType} type="image/svg+xml" key={`img-${index}`}>
+                                    your browser does not support SVG
+                                </object>
                             </div>
                             <div key={`temps-${index}`}>
                                 <p key={`high-${index}`}>{Math.round(obj.high)} / {Math.round(obj.low)}</p>
