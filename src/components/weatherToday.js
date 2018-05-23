@@ -44,15 +44,18 @@ class WeatherToday extends Component {
 
 
     render() {
+        const local = this.props.location;
         return (
-            <section className="today-selected-container">
+            <section className="today-container">
                 <div className="container">
-                    <div className="col-xs-12 col-sm-6 col-lg-4">
+                    <div className="today-content col-xs-12">
                         {
                             this.state.today.length > 0 ?
-                            <p> Current Day: { this.state.today[0].day } </p>
+                            <div className="location-data">
+                                {local}
+                            </div>
                             :
-                            <p>Loading day...</p>
+                            <p>Loading...</p>
                         }
                     </div>
                 </div>

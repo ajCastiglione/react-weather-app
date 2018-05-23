@@ -13,7 +13,8 @@ class App extends Component {
     long: '',
     getForcast: false,
     selectedDay: '',
-    currentDay: ''
+    currentDay: '',
+    location: 'locating...'
 }
 
 componentDidMount() { 
@@ -24,12 +25,30 @@ componentDidMount() {
         let long = pos.coords.longitude;
         this.setState({ lat: lat, long: long });
         this.setState({ getForcast: true });
+        this.fetchLocation();
         
     }, (err) => {console.error(err)}, {enableHighAccuracy: true} );
     let today = new Date().getDay();
     let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     this.setState({ currentDay: days[today] });
     
+}
+
+fetchLocation = () => {
+  let url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=", key = "&key=AIzaSyAGUlxBFrsJbst5nEvwx3QfNOomE8Csrjc";
+  fetch(`${url}${this.state.lat},${this.state.long}${key}`)
+  .then(res => {return res.json();})
+  .then( data => {
+    let specific = data.results[0].address_components[3];
+    let general = data.results[0].address_components[2];
+
+    if(specific) {
+      this.setState({ location: specific.long_name });
+
+    } else {
+      this.setState({ location: general.long_name })
+    }
+  });
 }
 
 changeSelectedDay = (chosenDay) => {
@@ -50,7 +69,7 @@ changeSelectedDay = (chosenDay) => {
         </div>
 
         <Route exact path='/' render={() => (
-          <WeatherToday lat={this.state.lat} long={this.state.long} getForcast={this.state.getForcast} />
+          <WeatherToday lat={this.state.lat} long={this.state.long} getForcast={this.state.getForcast} location={this.state.location} />
         )}/>
 
       </header>
