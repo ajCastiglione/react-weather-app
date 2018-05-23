@@ -24,10 +24,10 @@ html {
   background-repeat: no-repeat;
   background-color: $gray;
   background-blend-mode: multiply;
-  padding-bottom: 1em;
   .top-header {
     background-color: rgba(5, 5, 5, 0.55);
     color: $white;
+    padding: 1em 0;
     h1 {
       margin: 0;
       padding: 0.5em 0;
@@ -38,7 +38,7 @@ html {
 
 .today-selected-container {
   color: $white;
-  padding: 1em 0;
+  padding: 3em 0;
   object  {
     fill: orange !important;
   }
@@ -51,6 +51,7 @@ html {
   margin: 1em 0;
   padding-top: 1em;
   padding-bottom: 1em;
+  text-align: center;
   h4 {
     margin: 0;
     color: $black;

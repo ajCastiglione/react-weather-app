@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
 import './App.css';
 import WeatherToday from './components/weatherToday';
 import Forcast from './components/weatherForcast';
@@ -10,7 +11,8 @@ class App extends Component {
     supported: true,
     lat: '',
     long: '',
-    getForcast: false
+    getForcast: false,
+    selectedDay: ''
 }
 
 componentDidMount() { 
@@ -23,8 +25,14 @@ componentDidMount() {
         this.setState({ getForcast: true });
         
     }, (err) => {console.error(err)}, {enableHighAccuracy: true} );
-    let today = new Date().getDate();
-    this.setState({ currentDay: today });
+    let today = new Date().getDay();
+    let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    this.setState({ selectedDay: days[today] });
+    
+}
+
+changeSelectedDay = (e) => {
+
 }
 
   render() {
@@ -39,14 +47,16 @@ componentDidMount() {
           </div>
         </div>
 
-        <WeatherToday lat={this.state.lat} long={this.state.long} getForcast={this.state.getForcast} />
+        <Route path='/' render={() => (
+          <WeatherToday lat={this.state.lat} long={this.state.long} getForcast={this.state.getForcast} />
+        )}/>
 
       </header>
 
       <main className="main-content">
 
         <section className="weather-forcast">
-          <Forcast lat={this.state.lat} long={this.state.long} getForcast={this.state.getForcast} today={this.state.currentDay} />      
+          <Forcast lat={this.state.lat} long={this.state.long} getForcast={this.state.getForcast} today={this.state.selectedDay} selectDay={this.changeSelectedDay} />      
         </section>
 
       </main>

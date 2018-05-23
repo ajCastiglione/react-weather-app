@@ -66,6 +66,10 @@ class Weather extends Component {
         });   
     }
 
+    handleChange = (e) => {
+        console.log(e.currentTarget)
+    }
+
     render() {
 
         return (
@@ -84,9 +88,9 @@ class Weather extends Component {
                     this.state.weeklyForecast.length !== 0 ?
 
                     this.state.weeklyForecast.map( (obj, index) => (
-                        <div className={`forcast-result col-xs-4 col-sm-3 col-lg-2 ${this.props.today === obj.date ? 'forcast-current-day' : ''}`} key={`sr-${index}`}>
+                        <div id={obj.dayOfWeek} className={`forcast-result col-xs-4 col-sm-3 col-lg-2 ${this.props.today === obj.date ? 'forcast-current-day' : ''}`} key={`sr-${index}`} onClick={this.handleChange.bind(this)}>
                             <div key={`weekDay-${index}`}>
-                                <h4 key={`day${index}`} >{obj.dayOfWeek.substring(0, 3)}</h4>
+                                <h4 key={`day${index}`}>{obj.dayOfWeek.substring(0, 3)}</h4>
                             </div>
                             <div key={`ico-${index}`}>
                                 <object data={obj.iconType} type="image/svg+xml" key={`img-${index}`}>
