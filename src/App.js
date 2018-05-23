@@ -39,7 +39,7 @@ componentDidMount() {
           </div>
         </div>
 
-        <WeatherToday lat={this.state.lat} long={this.state.long} getWeather={this.state.getForcast} />
+        <WeatherToday lat={this.state.lat} long={this.state.long} getForcast={this.state.getForcast} />
 
       </header>
 

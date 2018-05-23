@@ -5,7 +5,7 @@ class Weather extends Component {
     
     state = {
         weatherData: {},
-        weeklyForecast: JSON.parse(localStorage.forcast) || [],
+        weeklyForecast: (localStorage.forcast.length > 0 ? JSON.parse(localStorage.forcast) : []),
         doOnce: false,
         fetchForcast: false
     }
@@ -99,7 +99,7 @@ class Weather extends Component {
                         </div>
                     ))
                     :
-                    <p>Loading resutls...</p>
+                    <p>Loading forcast...</p>
                 }
                 </div>
                 
