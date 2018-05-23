@@ -12,7 +12,8 @@ class App extends Component {
     lat: '',
     long: '',
     getForcast: false,
-    selectedDay: ''
+    selectedDay: '',
+    currentDay: ''
 }
 
 componentDidMount() { 
@@ -27,12 +28,13 @@ componentDidMount() {
     }, (err) => {console.error(err)}, {enableHighAccuracy: true} );
     let today = new Date().getDay();
     let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    this.setState({ selectedDay: days[today] });
+    this.setState({ currentDay: days[today] });
     
 }
 
-changeSelectedDay = (e) => {
-
+changeSelectedDay = (chosenDay) => {
+  console.log(chosenDay);
+  this.setState({ selectedDay: chosenDay });
 }
 
   render() {
@@ -47,7 +49,7 @@ changeSelectedDay = (e) => {
           </div>
         </div>
 
-        <Route path='/' render={() => (
+        <Route exact path='/' render={() => (
           <WeatherToday lat={this.state.lat} long={this.state.long} getForcast={this.state.getForcast} />
         )}/>
 
@@ -56,7 +58,7 @@ changeSelectedDay = (e) => {
       <main className="main-content">
 
         <section className="weather-forcast">
-          <Forcast lat={this.state.lat} long={this.state.long} getForcast={this.state.getForcast} today={this.state.selectedDay} selectDay={this.changeSelectedDay} />      
+          <Forcast lat={this.state.lat} long={this.state.long} getForcast={this.state.getForcast} today={this.state.currentDay} selectDay={this.changeSelectedDay} />      
         </section>
 
       </main>
