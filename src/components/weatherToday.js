@@ -47,18 +47,19 @@ class WeatherToday extends Component {
 
     render() {
         const local = this.props.location;
+        const today = this.state.today;
         return (
             <section className="today-container">
                 <div className="container">
                         {
-                            this.state.today.length > 0 ?
+                            this.state.today.length !== 0 && localStorage.today !== null ?
                             <div className="today-content col-xs-12">
-                                <div className="weather-data col-xs-12 col-sm-6 col-lg-8">
-                                    <p>{this.state.today[0].temp}</p>
-                                    <p>{this.state.today[0].summary}</p>                                    
+                                <div className="weather-data col-xs-7 col-sm-6 col-lg-8">
+                                    <p>{local}</p>
+                                    <p>{today[0].summary}</p>                                    
                                 </div>
-                                <div className="location-data col-xs-12 col-sm-6 col-lg-4">
-                                    {local}
+                                <div className="location-data col-xs-5 col-sm-6 col-lg-4">
+                                    {Math.round(today[0].temp)}
                                 </div>
                             </div>
                             :

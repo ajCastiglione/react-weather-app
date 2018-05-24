@@ -53,11 +53,6 @@ fetchLocation = () => {
   });
 }
 
-changeSelectedDay = (chosenDay) => {
-  console.log(chosenDay);
-  this.setState({ selectedDay: chosenDay });
-}
-
   render() {
     return (
       <div className="App">
@@ -83,7 +78,7 @@ changeSelectedDay = (chosenDay) => {
       <main className="main-content">
 
         <section className="weather-forcast">
-          <Forcast lat={this.state.lat} long={this.state.long} getForcast={this.state.getForcast} today={this.state.currentDay} selectDay={this.changeSelectedDay} />      
+          <Forcast lat={this.state.lat} long={this.state.long} getForcast={this.state.getForcast} today={this.state.currentDay} />      
         </section>
 
       </main>

@@ -9,7 +9,14 @@ class Weather extends Component {
         weatherData: {},
         weeklyForecast: (localStorage.forcast !==null ? JSON.parse(localStorage.forcast) : []),
         doOnce: false,
-        fetchForcast: false
+        fetchForcast: false,
+        currentDay: ''
+    }
+
+    componentDidMount() {
+        let today = new Date().getDay();
+        let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        this.setState({ currentDay: days[today] });
     }
 
     componentDidUpdate() {
@@ -69,16 +76,6 @@ class Weather extends Component {
         });   
     }
 
-    handleChange = (e, prop) => {
-        if(prop === 0) {
-            e.preventDefault();
-            let homeUrl = '/';
-            let path = `${window.location.protocol}//${window.location.host}/`;
-            if(path === window.location.href) return;
-            window.location.href = homeUrl;
-        }
-    }
-
     render() {
 
         return (
@@ -94,11 +91,11 @@ class Weather extends Component {
                 }
                 <div className="weather-results">
                 {
-                    this.state.weeklyForecast.length !== 0 ?
+                    this.state.weeklyForecast.length !== 0 && localStorage.forcast !== null ?
 
                     this.state.weeklyForecast.map( (obj, index) => (
                         <div className={`forcast-result col-xs-4 col-sm-3 col-lg-2 ${this.props.today === obj.date ? 'forcast-current-day' : ''}`} key={`sr-${index}`}>
-                        <Link to={`/${obj.dayOfWeek}`} onClick={(e) => this.handleChange(e, index)}>
+                        <Link to={this.state.currentDay === obj.dayOfWeek ? '/' : `/${obj.dayOfWeek}`}>
                             <div key={`weekDay-${index}`}>
                                 <h4 key={`day${index}`}>{obj.dayOfWeek.substring(0, 3)}</h4>
                             </div>
@@ -112,7 +109,7 @@ class Weather extends Component {
                         </div>
                     ))
                     :
-                    <p>Loading forcast...</p>
+                    <p>Loading forcast... {this.fetchWeather}</p>
                 }
                 </div>
                 

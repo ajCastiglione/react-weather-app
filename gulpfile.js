@@ -3,7 +3,7 @@ const gulp = require('gulp'),
     autoprefixer = require('gulp-autoprefixer');
 
 gulp.task('default', function () {
-    gulp.watch('src/*.scss', gulp.series('styles'));
+    gulp.watch('src/scss/*.scss', gulp.series('styles'));
 });
 
 gulp.task('styles', function () {
