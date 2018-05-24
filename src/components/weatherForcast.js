@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
+import { Link } from 'react-router-dom';
+import { key } from './apiKey';
 
 class Weather extends Component {
     
     state = {
         weatherData: {},
-        weeklyForecast: (localStorage.forcast.length > 0 ? JSON.parse(localStorage.forcast) : []),
+        weeklyForecast: (localStorage.forcast !==null ? JSON.parse(localStorage.forcast) : []),
         doOnce: false,
         fetchForcast: false
     }
 
     componentDidUpdate() {
         if(this.props.getForcast === true && this.state.fetchForcast !== this.props.getForcast) {
+            if(localStorage.forcast !== null) return;
             this.setState({ fetchForcast: this.props.getForcast});
             this.fetchWeather();
         }       
@@ -19,7 +22,7 @@ class Weather extends Component {
 
     fetchWeather = () => {
         $.ajax({
-            url: `https://api.darksky.net/forecast/d4c864a8c18bddde907e1454b383e71e/${this.props.lat},${this.props.long}?exlude=[minutely]?units=[uk2]`,
+            url: `https://api.darksky.net/forecast/${key}/${this.props.lat},${this.props.long}?exlude=[minutely]?units=[uk2]`,
             dataType: 'JSONP',
             type: 'GET',
             success: function(r) {
@@ -66,9 +69,14 @@ class Weather extends Component {
         });   
     }
 
-    handleChange = (e) => {
-        let selectedDay = e.currentTarget.getAttribute('id');
-        this.props.selectDay(selectedDay);
+    handleChange = (e, prop) => {
+        if(prop === 0) {
+            e.preventDefault();
+            let homeUrl = '/';
+            let path = `${window.location.protocol}//${window.location.host}/`;
+            if(path === window.location.href) return;
+            window.location.href = homeUrl;
+        }
     }
 
     render() {
@@ -89,7 +97,8 @@ class Weather extends Component {
                     this.state.weeklyForecast.length !== 0 ?
 
                     this.state.weeklyForecast.map( (obj, index) => (
-                        <div id={obj.dayOfWeek} className={`forcast-result col-xs-4 col-sm-3 col-lg-2 ${this.props.today === obj.date ? 'forcast-current-day' : ''}`} key={`sr-${index}`} onClick={this.handleChange}>
+                        <div className={`forcast-result col-xs-4 col-sm-3 col-lg-2 ${this.props.today === obj.date ? 'forcast-current-day' : ''}`} key={`sr-${index}`}>
+                        <Link to={`/${obj.dayOfWeek}`} onClick={(e) => this.handleChange(e, index)}>
                             <div key={`weekDay-${index}`}>
                                 <h4 key={`day${index}`}>{obj.dayOfWeek.substring(0, 3)}</h4>
                             </div>
@@ -99,6 +108,7 @@ class Weather extends Component {
                             <div key={`temps-${index}`}>
                                 <p key={`high-${index}`}>{Math.round(obj.high)} / {Math.round(obj.low)}</p>
                             </div>
+                        </Link>
                         </div>
                     ))
                     :

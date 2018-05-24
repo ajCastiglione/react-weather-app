@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 import './App.css';
 import WeatherToday from './components/weatherToday';
 import Forcast from './components/weatherForcast';
+import WeatherSelected from './components/weatherSelected';
 
 
 class App extends Component {
@@ -14,7 +15,7 @@ class App extends Component {
     getForcast: false,
     selectedDay: '',
     currentDay: '',
-    location: 'locating...'
+    location: localStorage.currentLocation !== null ? localStorage.currentLocation : 'locating...'
 }
 
 componentDidMount() { 
@@ -44,9 +45,10 @@ fetchLocation = () => {
 
     if(specific) {
       this.setState({ location: specific.long_name });
-
+      localStorage.currentLocation = this.state.location;
     } else {
-      this.setState({ location: general.long_name })
+      this.setState({ location: general.long_name });
+      localStorage.currentLocation = this.state.location;
     }
   });
 }
@@ -70,6 +72,10 @@ changeSelectedDay = (chosenDay) => {
 
         <Route exact path='/' render={() => (
           <WeatherToday lat={this.state.lat} long={this.state.long} getForcast={this.state.getForcast} location={this.state.location} />
+        )}/>
+
+        <Route path='/:day' render={() => (
+          <WeatherSelected lat={this.state.lat} long={this.state.long}/>
         )}/>
 
       </header>

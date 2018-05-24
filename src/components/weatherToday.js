@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
+import { key } from './apiKey';
 
 class WeatherToday extends Component {
 
     state = {
-        today: (localStorage.today.length > 0 ? JSON.parse(localStorage.today) : []),
+        today: (localStorage.today !== null ? JSON.parse(localStorage.today) : []),
         fetchForcast: false,
     }
 
     componentDidUpdate() {
         if(this.props.getForcast === true && this.state.fetchForcast !== this.props.getForcast) {
+            if(localStorage.today !== null) return;
             this.setState({ fetchForcast: this.props.getForcast});
             this.getToday();
         }
@@ -17,7 +19,7 @@ class WeatherToday extends Component {
 
     getToday = () => {
         $.ajax({
-            url: `https://api.darksky.net/forecast/d4c864a8c18bddde907e1454b383e71e/${this.props.lat},${this.props.long}?exlude=[minutely]?units=[uk2]`,
+            url: `https://api.darksky.net/forecast/${key}/${this.props.lat},${this.props.long}?exlude=[minutely]?units=[uk2]`,
             dataType: 'JSONP',
             type: 'GET',
             success: function(r) {
@@ -48,16 +50,21 @@ class WeatherToday extends Component {
         return (
             <section className="today-container">
                 <div className="container">
-                    <div className="today-content col-xs-12">
                         {
                             this.state.today.length > 0 ?
-                            <div className="location-data">
-                                {local}
+                            <div className="today-content col-xs-12">
+                                <div className="weather-data col-xs-12 col-sm-6 col-lg-8">
+                                    <p>{this.state.today[0].temp}</p>
+                                    <p>{this.state.today[0].summary}</p>                                    
+                                </div>
+                                <div className="location-data col-xs-12 col-sm-6 col-lg-4">
+                                    {local}
+                                </div>
                             </div>
                             :
-                            <p>Loading...</p>
+                            <p>Loading... {this.getToday}</p>
+                            
                         }
-                    </div>
                 </div>
             </section>
         )
