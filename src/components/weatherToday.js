@@ -25,17 +25,9 @@ class WeatherToday extends Component {
             success: function(r) {
                 let today = r.currently;
                 let unixConvert = new Date(today.time * 1000), day = unixConvert.getDay(), temp = today.temperature, summary = today.summary, wind = today.windSpeed, humidity = today.humidity;
-                switch(day) {
-                    case 0: day = 'Sunday'; break;
-                    case 1: day = 'Monday'; break;
-                    case 2: day = 'Tuesday'; break;
-                    case 3: day = 'Wednesday'; break;
-                    case 4: day = 'Thursday'; break;
-                    case 5: day = 'Friday'; break;
-                    case 6: day = 'Saturday'; break;
-                    default: break;
-                }
-                this.setState({ today: [{day: day, temp: temp, summary: summary, wind: wind, humidity: humidity}] });
+                let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+                this.setState({ today: [{day: days[day], temp: temp, summary: summary, wind: wind, humidity: humidity}] });
                 localStorage.today = JSON.stringify(this.state.today);
             }.bind(this),
             error: function (xhr, status, error) {

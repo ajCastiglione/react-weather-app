@@ -25,7 +25,7 @@ class Weather extends Component {
             this.setState({ fetchForcast: this.props.getForcast});
             this.fetchWeather();
         }       
-    }  
+    }
 
     fetchWeather = () => {
         $.ajax({
@@ -37,6 +37,7 @@ class Weather extends Component {
                     for(let day of r.daily.data) {
                         let unixConvert = new Date(day.time * 1000), days = unixConvert.getDay(), tempHigh = day.temperatureHigh;
                         let tempLow = day.temperatureLow, overview = day.summary, icon = day.icon, date = unixConvert.getDate();
+                        let wind = day.windSpeed, humidity = day.humidity;
                         
                         switch(icon) {
                             case 'partly-cloudy-day': icon = '/climacons-master/Cloud-sun.svg'; break;
@@ -63,13 +64,17 @@ class Weather extends Component {
                             high: tempHigh,
                             low: tempLow,
                             cast: overview,
+                            wind: wind,
+                            humidity: humidity,
                             iconType: icon
                         });
                     }
                     tempArr.pop();
-                    this.setState({ weeklyForecast: tempArr });
-                    this.pushToApp();
-                    localStorage.forcast = JSON.stringify(this.state.weeklyForecast);
+                    this.setState({ weeklyForecast: tempArr }, () => {
+                        this.pushToApp();
+                        localStorage.forcast = JSON.stringify(this.state.weeklyForecast);
+                    });
+                    
                 }.bind(this),
                 error: function (xhr, status, error) {
                     console.error(xhr, status, error);
@@ -88,9 +93,7 @@ class Weather extends Component {
     }
 
     handleClick = (e, index) => {
-        this.setState({ chosenDay: index });
-        console.log(this.state.chosenDay)
-        this.props.saveIndex(this.state.chosenDay);
+        this.props.saveIndex(index);
     }
 
     render() {

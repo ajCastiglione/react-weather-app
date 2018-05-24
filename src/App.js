@@ -15,7 +15,7 @@ class App extends Component {
     currentDay: '',
     location: (localStorage.currentLocation !== null ? localStorage.currentLocation : 'locating...'),
     savedForcast: [],
-    selectedDayIndex: 0
+    selectedDayIndex: null
 }
 
 componentDidMount() { 
@@ -44,11 +44,14 @@ fetchLocation = () => {
     let general = data.results[0].address_components[2];
 
     if(specific) {
-      this.setState({ location: specific.long_name });
-      localStorage.currentLocation = this.state.location;
+      this.setState({ location: specific.long_name }, () => {
+        localStorage.currentLocation = this.state.location;
+      });
+      
     } else {
-      this.setState({ location: general.long_name });
-      localStorage.currentLocation = this.state.location;
+      this.setState({ location: general.long_name }, () => {
+        localStorage.currentLocation = this.state.location;
+      });      
     }
   });
 }
@@ -57,7 +60,10 @@ saveForcast = (f) => {
   this.setState({ savedForcast: f });
 }
 saveIndex = (index) => {
-  this.setState({ selectedDayIndex: index });
+  this.setState({ selectedDayIndex: index }, () => {
+    localStorage.chosenDay = this.state.selectedDayIndex;
+  });
+  
 }
 
   render() {
@@ -77,7 +83,8 @@ saveIndex = (index) => {
         )}/>
 
         <Route path='/:day' render={() => (
-          <WeatherSelected lat={this.state.lat} long={this.state.long} forcast={this.state.savedForcast} day={this.state.selectedDayIndex} />
+          <WeatherSelected lat={this.state.lat} long={this.state.long} location={this.state
+          .location} forcast={this.state.savedForcast} day={this.state.selectedDayIndex} />
         )}/>
 
       </header>
@@ -85,7 +92,7 @@ saveIndex = (index) => {
       <main className="main-content">
 
         <section className="weather-forcast">
-          <Forcast lat={this.state.lat} long={this.state.long} getForcast={this.state.getForcast} today={this.state.currentDay} saveForcast={this.saveForcast} saveIndex={this.state.saveIndex}/>      
+          <Forcast lat={this.state.lat} long={this.state.long} getForcast={this.state.getForcast} today={this.state.currentDay} saveForcast={this.saveForcast} saveIndex={this.saveIndex}/>      
         </section>
 
       </main>
