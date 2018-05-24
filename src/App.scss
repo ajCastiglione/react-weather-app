@@ -4,6 +4,11 @@
 /* mobile / base */
 @import './scss/_base';
 
+/* small tablet to tablet */
+@media screen and (min-width: 481px) {
+  @import './scss/_481up';
+}
+
 /* tablet to small laptop */
 @media screen and (min-width: 768px) {
   @import './scss/_768up';

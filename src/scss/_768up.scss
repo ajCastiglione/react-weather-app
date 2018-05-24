@@ -1,0 +1,12 @@
+.weather-single-temp {
+    font-size: 7em;
+}
+
+.location-data {
+    display: inline-block;
+    width: 42%;
+    padding: 0 2%;
+    .weather-single-location {
+        font-size: 2.6em;
+    }
+}
