@@ -7,7 +7,7 @@ class Weather extends Component {
     
     state = {
         weatherData: {},
-        weeklyForecast: (localStorage.forcast !==null ? JSON.parse(localStorage.forcast) : []),
+        weeklyForecast: (localStorage.forcast !== undefined ? JSON.parse(localStorage.forcast) : []),
         doOnce: false,
         fetchForcast: false,
         currentDay: ''
@@ -21,7 +21,7 @@ class Weather extends Component {
 
     componentDidUpdate() {
         if(this.props.getForcast === true && this.state.fetchForcast !== this.props.getForcast) {
-            if(localStorage.forcast !== null) return;
+            if(localStorage.forcast !== undefined) return;
             this.setState({ fetchForcast: this.props.getForcast});
             this.fetchWeather();
         }       
@@ -102,8 +102,9 @@ class Weather extends Component {
                             <div key={`ico-${index}`}>
                                 <img src={obj.iconType} key={`img-${index}`} alt={obj.iconType} />
                             </div>
-                            <div key={`temps-${index}`}>
-                                <p key={`high-${index}`}>{Math.round(obj.high)} / {Math.round(obj.low)}</p>
+                            <div key={`temps-cast-${index}`}>
+                                <p className="forcast-temp">{Math.round(obj.high)} / {Math.round(obj.low)}</p>
+                                <p>{obj.cast}</p>
                             </div>
                         </Link>
                         </div>

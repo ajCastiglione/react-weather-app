@@ -5,13 +5,13 @@ import { key } from './apiKey';
 class WeatherToday extends Component {
 
     state = {
-        today: (localStorage.today !== null ? JSON.parse(localStorage.today) : []),
+        today: (localStorage.today !== undefined ? JSON.parse(localStorage.today) : []),
         fetchForcast: false,
     }
 
     componentDidUpdate() {
         if(this.props.getForcast === true && this.state.fetchForcast !== this.props.getForcast) {
-            if(localStorage.today !== null) return;
+            if(localStorage.today !== undefined) return;
             this.setState({ fetchForcast: this.props.getForcast});
             this.getToday();
         }
@@ -19,12 +19,12 @@ class WeatherToday extends Component {
 
     getToday = () => {
         $.ajax({
-            url: `https://api.darksky.net/forecast/${key}/${this.props.lat},${this.props.long}?exlude=[minutely]?units=[uk2]`,
+            url: `https://api.darksky.net/forecast/${key}/${this.props.lat},${this.props.long}?exlude=minutely?units=uk2`,
             dataType: 'JSONP',
             type: 'GET',
             success: function(r) {
                 let today = r.currently;
-                let unixConvert = new Date(today.time * 1000), day = unixConvert.getDay(), temp = today.temperature, summary = today.summary;
+                let unixConvert = new Date(today.time * 1000), day = unixConvert.getDay(), temp = today.temperature, summary = today.summary, wind = today.windSpeed, humidity = today.humidity;
                 switch(day) {
                     case 0: day = 'Sunday'; break;
                     case 1: day = 'Monday'; break;
@@ -35,12 +35,12 @@ class WeatherToday extends Component {
                     case 6: day = 'Saturday'; break;
                     default: break;
                 }
-                this.setState({ today: [{day: day, temp: temp, summary: summary}] });
+                this.setState({ today: [{day: day, temp: temp, summary: summary, wind: wind, humidity: humidity}] });
                 localStorage.today = JSON.stringify(this.state.today);
             }.bind(this),
             error: function (xhr, status, error) {
                 console.error(xhr, status, error);
-            } 
+            }
         });
     }
 
@@ -54,12 +54,22 @@ class WeatherToday extends Component {
                         {
                             this.state.today.length !== 0 && localStorage.today !== null ?
                             <div className="today-content col-xs-12">
-                                <div className="weather-data col-xs-7 col-sm-6 col-lg-8">
-                                    <p>{local}</p>
-                                    <p>{today[0].summary}</p>                                    
-                                </div>
-                                <div className="location-data col-xs-5 col-sm-6 col-lg-4">
-                                    {Math.round(today[0].temp)}
+                                <div className="inner-today-content">
+                                    <div className="weather-data">
+                                        <p className="weather-single-temp">{Math.round(today[0].temp)} <sup>&deg;F</sup></p>
+                                        <p className="weather-single-summary">{today[0].summary}</p>
+                                        <div className="weather-single-humidity">
+                                            <p>humidity</p>
+                                            <p>{today[0].humidity * 100}%</p>
+                                        </div>
+                                        <div className="weather-single-wind">
+                                            <p>wind</p>
+                                            <p>{today[0].wind}</p>
+                                        </div>                            
+                                    </div>
+                                    <div className="location-data">
+                                        <p className="weather-single-location">{local}</p>
+                                    </div>
                                 </div>
                             </div>
                             :
