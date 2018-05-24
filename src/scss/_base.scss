@@ -75,9 +75,13 @@ html {
 
 /* Weather today */
 
+.today-container {
+    padding-bottom: 2em;
+}
+
 .today-content {
     padding-top: 1em;
-    padding-bottom: 3em;
+    padding-bottom: 1em;
     color: $white;
     .location-data {
         text-align: center;
