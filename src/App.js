@@ -5,7 +5,6 @@ import WeatherToday from './components/weatherToday';
 import Forcast from './components/weatherForcast';
 import WeatherSelected from './components/weatherSelected';
 
-
 class App extends Component {
 
   state = {
@@ -13,9 +12,10 @@ class App extends Component {
     lat: '',
     long: '',
     getForcast: false,
-    selectedDay: '',
     currentDay: '',
-    location: localStorage.currentLocation !== null ? localStorage.currentLocation : 'locating...'
+    location: (localStorage.currentLocation !== null ? localStorage.currentLocation : 'locating...'),
+    savedForcast: [],
+    selectedDayIndex: 0
 }
 
 componentDidMount() { 
@@ -53,6 +53,13 @@ fetchLocation = () => {
   });
 }
 
+saveForcast = (f) => {
+  this.setState({ savedForcast: f });
+}
+saveIndex = (index) => {
+  this.setState({ selectedDayIndex: index });
+}
+
   render() {
     return (
       <div className="App">
@@ -70,7 +77,7 @@ fetchLocation = () => {
         )}/>
 
         <Route path='/:day' render={() => (
-          <WeatherSelected lat={this.state.lat} long={this.state.long}/>
+          <WeatherSelected lat={this.state.lat} long={this.state.long} forcast={this.state.savedForcast} day={this.state.selectedDayIndex} />
         )}/>
 
       </header>
@@ -78,7 +85,7 @@ fetchLocation = () => {
       <main className="main-content">
 
         <section className="weather-forcast">
-          <Forcast lat={this.state.lat} long={this.state.long} getForcast={this.state.getForcast} today={this.state.currentDay} />      
+          <Forcast lat={this.state.lat} long={this.state.long} getForcast={this.state.getForcast} today={this.state.currentDay} saveForcast={this.saveForcast} saveIndex={this.state.saveIndex}/>      
         </section>
 
       </main>

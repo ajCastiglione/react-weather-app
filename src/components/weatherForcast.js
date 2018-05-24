@@ -6,17 +6,17 @@ import { key } from './apiKey';
 class Weather extends Component {
     
     state = {
-        weatherData: {},
         weeklyForecast: (localStorage.forcast !== undefined ? JSON.parse(localStorage.forcast) : []),
-        doOnce: false,
         fetchForcast: false,
-        currentDay: ''
+        currentDay: '',
+        chosenDay: 0
     }
 
     componentDidMount() {
         let today = new Date().getDay();
         let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         this.setState({ currentDay: days[today] });
+        this.pushToApp();
     }
 
     componentDidUpdate() {
@@ -68,12 +68,29 @@ class Weather extends Component {
                     }
                     tempArr.pop();
                     this.setState({ weeklyForecast: tempArr });
+                    this.pushToApp();
                     localStorage.forcast = JSON.stringify(this.state.weeklyForecast);
                 }.bind(this),
                 error: function (xhr, status, error) {
                     console.error(xhr, status, error);
             }
         });   
+    }
+
+    pushToApp = () => {
+        if(this.state.weeklyForecast.length !== 0) {
+            this.props.saveForcast(this.state.weeklyForecast);
+        } else if( localStorage.forcast !== null ) {
+            this.props.saveForcast(JSON.parse(localStorage.forcast));
+        } else {
+            return;
+        }
+    }
+
+    handleClick = (e, index) => {
+        this.setState({ chosenDay: index });
+        console.log(this.state.chosenDay)
+        this.props.saveIndex(this.state.chosenDay);
     }
 
     render() {
@@ -95,7 +112,7 @@ class Weather extends Component {
 
                     this.state.weeklyForecast.map( (obj, index) => (
                         <div className={`forcast-result col-xs-4 col-sm-3 col-lg-2 ${this.props.today === obj.date ? 'forcast-current-day' : ''}`} key={`sr-${index}`}>
-                        <Link to={this.state.currentDay === obj.dayOfWeek ? '/' : `/${obj.dayOfWeek}`}>
+                        <Link to={this.state.currentDay === obj.dayOfWeek ? '/' : `/${obj.dayOfWeek}`} onClick={(e) => this.handleClick(e, index)} >
                             <div key={`weekDay-${index}`}>
                                 <h4 key={`day${index}`}>{obj.dayOfWeek.substring(0, 3)}</h4>
                             </div>

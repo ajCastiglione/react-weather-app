@@ -65,7 +65,7 @@ class WeatherToday extends Component {
                                         <div className="weather-single-wind">
                                             <p>wind</p>
                                             <p>{today[0].wind}</p>
-                                        </div>                            
+                                        </div>
                                     </div>
                                     <div className="location-data">
                                         <p className="weather-single-location">{local}</p>
