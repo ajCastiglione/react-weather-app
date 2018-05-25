@@ -19,6 +19,10 @@ class WeatherToday extends Component {
             this.setState({ fetchForcast: this.props.getForcast});
             this.getToday();
         }
+        if(this.props.shouldIUpdate === true) {
+            this.fetchWeather();
+            this.props.changeStatus();        
+        }
     }
 
     getToday = () => {
@@ -33,6 +37,7 @@ class WeatherToday extends Component {
 
                 this.setState({ today: [{day: days[day], temp: temp, summary: summary, wind: wind, humidity: humidity}] });
                 localStorage.today = JSON.stringify(this.state.today);
+                this.props.changeText();
             }.bind(this),
             error: function (xhr, status, error) {
                 console.error(xhr, status, error);

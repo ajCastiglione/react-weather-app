@@ -96,7 +96,10 @@ successfullUpdate = () => {
           lat={this.state.lat} 
           long={this.state.long} 
           getForcast={this.state.getForcast} 
-          location={this.state.location} 
+          location={this.state.location}
+          changeStatus={this.updateCurrentWeather}
+          shouldIUpdate={this.state.updateWeather}
+          changeText={this.successfullUpdate}
           />
         )}/>
 
