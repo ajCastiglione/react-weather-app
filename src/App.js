@@ -15,7 +15,9 @@ class App extends Component {
     currentDay: '',
     location: (localStorage.currentLocation !== null ? localStorage.currentLocation : 'locating...'),
     savedForcast: [],
-    selectedDayIndex: null
+    selectedDayIndex: null,
+    updateWeather: false,
+    showUpdating: false,
 }
 
 componentDidMount() { 
@@ -24,7 +26,9 @@ componentDidMount() {
 
         let lat =  pos.coords.latitude;
         let long = pos.coords.longitude;
-        this.setState({ lat: lat, long: long });
+        this.setState({ lat: lat, long: long }, () => {
+          localStorage.coords = JSON.stringify([this.state.lat, this.state.long]);
+        });
         this.setState({ getForcast: true });
         this.fetchLocation();
         
@@ -63,7 +67,13 @@ saveIndex = (index) => {
   this.setState({ selectedDayIndex: index }, () => {
     localStorage.chosenDay = this.state.selectedDayIndex;
   });
-  
+}
+updateCurrentWeather = () => {
+  this.setState({ updateWeather: !this.state.updateWeather });
+  this.setState({ showUpdating: true });  
+}
+successfullUpdate = () => {
+  this.setState({ showUpdating: false });
 }
 
   render() {
@@ -75,16 +85,29 @@ saveIndex = (index) => {
         <div className="top-header">
           <div className="container">
             <h1>React Weather App</h1>
+            <div className='fetch-weather-btn'>
+              <button onClick={this.updateCurrentWeather}>{ this.state.showUpdating === false ? 'Update Weather' : 'Updating...' }</button>
+            </div>
           </div>
         </div>
 
         <Route exact path='/' render={() => (
-          <WeatherToday lat={this.state.lat} long={this.state.long} getForcast={this.state.getForcast} location={this.state.location} />
+          <WeatherToday 
+          lat={this.state.lat} 
+          long={this.state.long} 
+          getForcast={this.state.getForcast} 
+          location={this.state.location} 
+          />
         )}/>
 
         <Route path='/:day' render={() => (
-          <WeatherSelected lat={this.state.lat} long={this.state.long} location={this.state
-          .location} forcast={this.state.savedForcast} day={this.state.selectedDayIndex} />
+          <WeatherSelected 
+          lat={this.state.lat} 
+          long={this.state.long} 
+          location={this.state.location} 
+          forcast={this.state.savedForcast} 
+          day={this.state.selectedDayIndex} 
+          />
         )}/>
 
       </header>
@@ -92,7 +115,17 @@ saveIndex = (index) => {
       <main className="main-content">
 
         <section className="weather-forcast">
-          <Forcast lat={this.state.lat} long={this.state.long} getForcast={this.state.getForcast} today={this.state.currentDay} saveForcast={this.saveForcast} saveIndex={this.saveIndex}/>      
+          <Forcast 
+          lat={this.state.lat} 
+          long={this.state.long} 
+          getForcast={this.state.getForcast} 
+          today={this.state.currentDay} 
+          saveForcast={this.saveForcast} 
+          saveIndex={this.saveIndex}
+          changeStatus={this.updateCurrentWeather}
+          shouldIUpdate={this.state.updateWeather}
+          changeText={this.successfullUpdate}
+          />      
         </section>
 
       </main>
