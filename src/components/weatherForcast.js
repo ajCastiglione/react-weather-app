@@ -9,7 +9,9 @@ class Weather extends Component {
         weeklyForecast: (localStorage.forcast !== undefined ? JSON.parse(localStorage.forcast) : []),
         fetchForcast: false,
         currentDay: '',
-        chosenDay: 0
+        chosenDay: 0,
+        lat: localStorage.coords !== undefined ? JSON.parse(localStorage.coords)[0] : this.props.lat,
+        long: localStorage.coords !== undefined ? JSON.parse(localStorage.coords)[1] : this.props.long
     }
 
     componentDidMount() {
@@ -17,6 +19,7 @@ class Weather extends Component {
         let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         this.setState({ currentDay: days[today] });
         this.pushToApp();
+        setInterval(this.fetchWeather, 1000 * 300);
     }
 
     componentDidUpdate() {
@@ -24,12 +27,16 @@ class Weather extends Component {
             if(localStorage.forcast !== undefined) return;
             this.setState({ fetchForcast: this.props.getForcast});
             this.fetchWeather();
-        }       
+        }
+        if(this.props.shouldIUpdate === true) {
+            this.fetchWeather();
+            this.props.changeStatus();        
+        }
     }
 
     fetchWeather = () => {
         $.ajax({
-            url: `https://api.darksky.net/forecast/${key}/${this.props.lat},${this.props.long}?exlude=[minutely]?units=[uk2]`,
+            url: `https://api.darksky.net/forecast/${key}/${this.state.lat},${this.state.long}?exlude=[minutely]?units=[uk2]`,
             dataType: 'JSONP',
             type: 'GET',
             success: function(r) {
@@ -75,7 +82,7 @@ class Weather extends Component {
                         this.pushToApp();
                         localStorage.forcast = JSON.stringify(this.state.weeklyForecast);
                     });
-                    
+                    this.props.changeText();
                 }.bind(this),
                 error: function (xhr, status, error) {
                     console.error(xhr, status, error);

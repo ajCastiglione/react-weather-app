@@ -9,6 +9,10 @@ class WeatherToday extends Component {
         fetchForcast: false,
     }
 
+    componentDidMount() {
+        setInterval(this.getToday, 1000 * 300);
+    }
+
     componentDidUpdate() {
         if(this.props.getForcast === true && this.state.fetchForcast !== this.props.getForcast) {
             if(localStorage.today !== undefined) return;
