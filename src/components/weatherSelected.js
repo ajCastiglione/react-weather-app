@@ -35,11 +35,12 @@ class weatherSelected extends Component {
                                         </div>
                                         <div className="weather-single-wind">
                                             <p>wind</p>
-                                            <p>{forcast[index].wind}</p>
+                                            <p>{forcast[index].wind} MPH</p>
                                         </div>
                                     </div>
                                     <div className="location-data">
                                         <p className="weather-single-location">{local}</p>
+                                        <p className="weather-single-day">{ forcast[index].dayOfWeek }</p>
                                     </div>
                                 </div>
                             </div>

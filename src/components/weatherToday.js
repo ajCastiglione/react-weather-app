@@ -56,11 +56,12 @@ class WeatherToday extends Component {
                                         </div>
                                         <div className="weather-single-wind">
                                             <p>wind</p>
-                                            <p>{today[0].wind}</p>
+                                            <p>{today[0].wind} MPH</p>
                                         </div>
                                     </div>
                                     <div className="location-data">
                                         <p className="weather-single-location">{local}</p>
+                                        <p className="weather-single-day">{ today[0].day }</p>
                                     </div>
                                 </div>
                             </div>

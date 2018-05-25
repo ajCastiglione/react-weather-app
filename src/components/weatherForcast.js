@@ -70,6 +70,7 @@ class Weather extends Component {
                         });
                     }
                     tempArr.pop();
+                    tempArr.pop();
                     this.setState({ weeklyForecast: tempArr }, () => {
                         this.pushToApp();
                         localStorage.forcast = JSON.stringify(this.state.weeklyForecast);
@@ -85,7 +86,7 @@ class Weather extends Component {
     pushToApp = () => {
         if(this.state.weeklyForecast.length !== 0) {
             this.props.saveForcast(this.state.weeklyForecast);
-        } else if( localStorage.forcast !== null ) {
+        } else if( localStorage.forcast !== undefined ) {
             this.props.saveForcast(JSON.parse(localStorage.forcast));
         } else {
             return;
@@ -94,6 +95,7 @@ class Weather extends Component {
 
     handleClick = (e, index) => {
         this.props.saveIndex(index);
+        $('html, body').animate({ scrollTop: 50 }, 'slow');
     }
 
     render() {
@@ -109,12 +111,12 @@ class Weather extends Component {
                     :
                     null
                 }
-                <div className="weather-results">
+                <div className="weather-results clearfix">
                 {
                     this.state.weeklyForecast.length !== 0 && localStorage.forcast !== null ?
 
                     this.state.weeklyForecast.map( (obj, index) => (
-                        <div className={`forcast-result col-xs-4 col-sm-3 col-lg-2 ${this.props.today === obj.date ? 'forcast-current-day' : ''}`} key={`sr-${index}`}>
+                        <div className={`forcast-result col-xs-4 col-sm-2 col-lg-2 ${this.props.today === obj.date ? 'forcast-current-day' : ''}`} key={`sr-${index}`}>
                         <Link to={this.state.currentDay === obj.dayOfWeek ? '/' : `/${obj.dayOfWeek}`} onClick={(e) => this.handleClick(e, index)} >
                             <div key={`weekDay-${index}`}>
                                 <h4 key={`day${index}`}>{obj.dayOfWeek.substring(0, 3)}</h4>
