@@ -23,4 +23,5 @@ Following those steps will give you the development build of the application. It
 <li>Need to display the currently selected day's name, work on changing up the layout a bit to make it work for the information it comes with.</li>
 <li><del>Implement scroll to top functionality when a day is selected (done this before, just dont remember if it was vanillaJS or jquery)</del></li>
 <li>Using jquery for smooth scrolling and ajax requests since jsonp is needed due to cors issue</li>
+<li>Added a button that allows the user to fetch current weather, also have an interval fetching updates every 5 minutes.</li>
 </ol>
