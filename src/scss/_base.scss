@@ -5,7 +5,27 @@ html {
     font-family: $font;
 }
 
-/* header section */
+/*****************
+header section
+******************/
+
+.top-header {
+    position: relative;
+    text-align: center;
+}
+
+.fetch-weather-btn {
+    text-align: center;
+    button {
+        background-color: $orange;
+        border: 2px solid $brown;
+        font-size: 1.2em;
+        padding: 0.2em 1em;
+        &:hover {
+            background-color: transparent;
+        }
+    }
+}
 
 .today-container {
     box-shadow: 1px 10px 15px $black;

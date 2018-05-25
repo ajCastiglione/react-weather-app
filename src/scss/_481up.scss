@@ -1,6 +1,26 @@
+/******************
+header section 
+*******************/
+.top-header {
+    text-align: left;
+}
+.fetch-weather-btn {
+    button {
+        position: absolute;
+        right: 10px;
+        top: 0;
+        bottom: 0;
+        max-height: 30px;
+        margin: auto;
+        padding: 0.2em 1em;
+        transition: all 0.3s ease-in-out;
+        &:hover {
+            background-color: transparent;
+        }
+    }
+}
+
 /* Weather today */
-
-
 
 .weather-data {
     width: 40%;
@@ -13,4 +33,6 @@
 .inner-today-content {
     justify-content: space-between;
 }
+
+
 
