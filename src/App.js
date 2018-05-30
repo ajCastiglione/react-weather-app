@@ -69,8 +69,7 @@ saveIndex = (index) => {
   });
 }
 updateCurrentWeather = () => {
-  this.setState({ updateWeather: !this.state.updateWeather });
-  this.setState({ showUpdating: true });  
+  this.setState({ updateWeather: !this.state.updateWeather, showUpdating: true });
 }
 successfullUpdate = () => {
   this.setState({ showUpdating: false });

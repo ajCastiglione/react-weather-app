@@ -4,6 +4,11 @@ import { Link } from 'react-router-dom';
 import { key } from './apiKey';
 
 class Weather extends Component {
+
+    constructor(props) {
+        super(props);
+        this.fetchWeather = this.fetchWeather.bind(this);
+    }
     
     state = {
         weeklyForecast: (localStorage.forcast !== undefined ? JSON.parse(localStorage.forcast) : []),
@@ -28,13 +33,19 @@ class Weather extends Component {
             this.setState({ fetchForcast: this.props.getForcast});
             this.fetchWeather();
         }
+
+        
         if(this.props.shouldIUpdate === true) {
             this.fetchWeather();
             this.props.changeStatus();        
         }
     }
 
-    fetchWeather = () => {
+    componentWillReceiveProps() {
+        
+    }
+
+    fetchWeather () {
         $.ajax({
             url: `https://api.darksky.net/forecast/${key}/${this.state.lat},${this.state.long}?exlude=[minutely]?units=[uk2]`,
             dataType: 'JSONP',
@@ -139,7 +150,7 @@ class Weather extends Component {
                         </div>
                     ))
                     :
-                    <p>Loading forcast... {this.fetchWeather}</p>
+                    <p>Loading forcast...</p>
                 }
                 </div>
                 

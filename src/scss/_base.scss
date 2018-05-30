@@ -3,6 +3,8 @@
 body,
 html {
     font-family: $font;
+    background-color: rgba(157, 95, 0, 0.3);
+    border: 2px solid $orange;
 }
 
 /*****************
@@ -78,9 +80,7 @@ Main content
 /* Weather forcast */
 
 .weather-data-container {
-    background-color: rgba(157, 95, 0, 0.3);
-    border: 2px solid $orange;
-    padding-top: 0.5em;
+    padding-top: 0.5em;   
 }
 
 .weather-results {
@@ -104,8 +104,10 @@ Main content
     text-align: center;
     h4 {
         margin: 0;
-        color: $black;
+        padding: 0.3em 0;
         font-weight: bold;
+        color: $white;
+        text-shadow: 2px 1px 1px $black;
     }
     .forcast-temp {
         margin: 0;
