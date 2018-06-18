@@ -23,16 +23,19 @@ class Weather extends Component {
     }
 
     componentDidUpdate() {
-        if(this.props.getForcast === true && this.state.fetchForcast !== this.props.getForcast) {
-            if(sessionStorage.forcast !== undefined) return;
-            this.setState({ fetchForcast: this.props.getForcast});
-            this.fetchWeather();
-        }
+        console.log(this.props.shouldIUpdate)
         if(this.props.shouldIUpdate === true) {
             this.fetchWeather();
             this.props.changeStatus();        
         }
+
+        if(this.props.getForcast === true && this.state.fetchForcast !== this.props.getForcast) {
+            if(sessionStorage.forcast !== undefined) {return}
+            this.setState({ fetchForcast: this.props.getForcast});
+            this.fetchWeather();
+        }
     }
+
 
     fetchWeather = () => {
         $.ajax({
