@@ -5,8 +5,8 @@ class weatherSelected extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            forcast: props.forcast.length <= 0 ? JSON.parse(localStorage.forcast) : props.forcast,
-            index: props.day === null ? Number(localStorage.chosenDay) : props.day,
+            forcast: props.forcast.length <= 0 ? JSON.parse(sessionStorage.forcast) : props.forcast,
+            index: props.day === null ? Number(sessionStorage.chosenDay) : props.day,
         }
     }
 

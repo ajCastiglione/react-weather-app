@@ -5,7 +5,7 @@ import { key } from './apiKey';
 class WeatherToday extends Component {
 
     state = {
-        today: (localStorage.today !== undefined ? JSON.parse(localStorage.today) : []),
+        today: (sessionStorage.today !== undefined ? JSON.parse(sessionStorage.today) : []),
         fetchForcast: false,
     }
 
@@ -15,7 +15,7 @@ class WeatherToday extends Component {
 
     componentDidUpdate() {
         if(this.props.getForcast === true && this.state.fetchForcast !== this.props.getForcast) {
-            if(localStorage.today !== undefined) return;
+            if(sessionStorage.today !== undefined) return;
             this.setState({ fetchForcast: this.props.getForcast});
             this.getToday();
         }
@@ -36,7 +36,7 @@ class WeatherToday extends Component {
                 let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
                 this.setState({ today: [{day: days[day], temp: temp, summary: summary, wind: wind, humidity: humidity}] });
-                localStorage.today = JSON.stringify(this.state.today);
+                sessionStorage.today = JSON.stringify(this.state.today);
                 this.props.changeText();
             }.bind(this),
             error: function (xhr, status, error) {
@@ -53,7 +53,7 @@ class WeatherToday extends Component {
             <section className="today-container">
                 <div className="container">
                         {
-                            this.state.today.length !== 0 && localStorage.today !== null ?
+                            this.state.today.length !== 0 && sessionStorage.today !== null ?
                             <div className="today-content col-xs-12">
                                 <div className="inner-today-content">
                                     <div className="weather-data">

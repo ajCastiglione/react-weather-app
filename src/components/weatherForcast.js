@@ -6,12 +6,12 @@ import { key } from './apiKey';
 class Weather extends Component {
     
     state = {
-        weeklyForecast: (localStorage.forcast !== undefined ? JSON.parse(localStorage.forcast) : []),
+        weeklyForecast: (sessionStorage.forcast !== undefined ? JSON.parse(sessionStorage.forcast) : []),
         fetchForcast: false,
         currentDay: '',
         chosenDay: 0,
-        lat: localStorage.coords !== undefined ? JSON.parse(localStorage.coords)[0] : this.props.lat,
-        long: localStorage.coords !== undefined ? JSON.parse(localStorage.coords)[1] : this.props.long
+        lat: sessionStorage.coords !== undefined ? JSON.parse(sessionStorage.coords)[0] : this.props.lat,
+        long: sessionStorage.coords !== undefined ? JSON.parse(sessionStorage.coords)[1] : this.props.long
     }
 
     componentDidMount() {
@@ -24,7 +24,7 @@ class Weather extends Component {
 
     componentDidUpdate() {
         if(this.props.getForcast === true && this.state.fetchForcast !== this.props.getForcast) {
-            if(localStorage.forcast !== undefined) return;
+            if(sessionStorage.forcast !== undefined) return;
             this.setState({ fetchForcast: this.props.getForcast});
             this.fetchWeather();
         }
@@ -80,7 +80,7 @@ class Weather extends Component {
                     tempArr.pop();
                     this.setState({ weeklyForecast: tempArr }, () => {
                         this.pushToApp();
-                        localStorage.forcast = JSON.stringify(this.state.weeklyForecast);
+                        sessionStorage.forcast = JSON.stringify(this.state.weeklyForecast);
                     });
                     this.props.changeText();
                 }.bind(this),
@@ -93,8 +93,8 @@ class Weather extends Component {
     pushToApp = () => {
         if(this.state.weeklyForecast.length !== 0) {
             this.props.saveForcast(this.state.weeklyForecast);
-        } else if( localStorage.forcast !== undefined ) {
-            this.props.saveForcast(JSON.parse(localStorage.forcast));
+        } else if( sessionStorage.forcast !== undefined ) {
+            this.props.saveForcast(JSON.parse(sessionStorage.forcast));
         } else {
             return;
         }
@@ -120,7 +120,7 @@ class Weather extends Component {
                 }
                 <div className="weather-results clearfix">
                 {
-                    this.state.weeklyForecast.length !== 0 && localStorage.forcast !== null ?
+                    this.state.weeklyForecast.length !== 0 && sessionStorage.forcast !== null ?
 
                     this.state.weeklyForecast.map( (obj, index) => (
                         <div className={`forcast-result col-xs-4 col-sm-2 col-lg-2 ${this.props.today === obj.date ? 'forcast-current-day' : ''}`} key={`sr-${index}`}>
@@ -139,7 +139,7 @@ class Weather extends Component {
                         </div>
                     ))
                     :
-                    <p>Loading forcast... {this.fetchWeather}</p>
+                    <p>Loading forcast... </p>
                 }
                 </div>
                 

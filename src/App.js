@@ -13,7 +13,7 @@ class App extends Component {
     long: '',
     getForcast: false,
     currentDay: '',
-    location: (localStorage.currentLocation !== null ? localStorage.currentLocation : 'locating...'),
+    location: (sessionStorage.currentLocation !== null ? sessionStorage.currentLocation : 'locating...'),
     savedForcast: [],
     selectedDayIndex: null,
     updateWeather: false,
@@ -27,7 +27,7 @@ componentDidMount() {
         let lat =  pos.coords.latitude;
         let long = pos.coords.longitude;
         this.setState({ lat: lat, long: long }, () => {
-          localStorage.coords = JSON.stringify([this.state.lat, this.state.long]);
+          sessionStorage.coords = JSON.stringify([this.state.lat, this.state.long]);
         });
         this.setState({ getForcast: true });
         this.fetchLocation();
@@ -49,12 +49,12 @@ fetchLocation = () => {
 
     if(specific) {
       this.setState({ location: specific.long_name }, () => {
-        localStorage.currentLocation = this.state.location;
+        sessionStorage.currentLocation = this.state.location;
       });
       
     } else {
       this.setState({ location: general.long_name }, () => {
-        localStorage.currentLocation = this.state.location;
+        sessionStorage.currentLocation = this.state.location;
       });      
     }
   });
@@ -65,7 +65,7 @@ saveForcast = (f) => {
 }
 saveIndex = (index) => {
   this.setState({ selectedDayIndex: index }, () => {
-    localStorage.chosenDay = this.state.selectedDayIndex;
+    sessionStorage.chosenDay = this.state.selectedDayIndex;
   });
 }
 updateCurrentWeather = () => {
