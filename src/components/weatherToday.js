@@ -20,7 +20,7 @@ class WeatherToday extends Component {
             this.getToday();
         }
         if(this.props.shouldIUpdate === true) {
-            this.fetchWeather();
+            this.getToday();
             this.props.changeStatus();        
         }
     }
@@ -75,7 +75,7 @@ class WeatherToday extends Component {
                                 </div>
                             </div>
                             :
-                            <p>Loading... {this.getToday}</p>
+                            <p>Loading...</p>
                             
                         }
                 </div>

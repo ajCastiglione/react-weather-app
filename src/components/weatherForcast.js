@@ -23,16 +23,16 @@ class Weather extends Component {
     }
 
     componentDidUpdate() {
-        console.log(this.props.shouldIUpdate)
         if(this.props.shouldIUpdate === true) {
             this.fetchWeather();
             this.props.changeStatus();        
         }
-
         if(this.props.getForcast === true && this.state.fetchForcast !== this.props.getForcast) {
             if(sessionStorage.forcast !== undefined) {return}
+            this.setState({ lat: this.props.lat, long: this.props.long }, () => {
+                this.fetchWeather();
+            });
             this.setState({ fetchForcast: this.props.getForcast});
-            this.fetchWeather();
         }
     }
 
@@ -50,12 +50,12 @@ class Weather extends Component {
                         let wind = day.windSpeed, humidity = day.humidity;
                         
                         switch(icon) {
-                            case 'partly-cloudy-day': icon = '/climacons-master/Cloud-sun.svg'; break;
-                            case 'rain': icon = '/climacons-master/cloud-rain.svg'; break;
-                            case 'cloudy': icon = '/climacons-master/cloud.svg'; break;
-                            case 'partly-cloudy-night' : icon = '/climacons-master/cloud-moon.svg'; break;
-                            case 'clear-day': icon = '/climacons-master/sun.svg'; break;
-                            default: icon = '/climacons-master/compass.svg';
+                            case 'partly-cloudy-day': icon = 'https://res.cloudinary.com/duqzndv6k/image/upload/v1529373168/svgs%20for%20weather%20app/Cloud-Sun.svg'; break;
+                            case 'rain': icon = 'https://res.cloudinary.com/duqzndv6k/image/upload/v1529373152/svgs%20for%20weather%20app/Cloud-Rain.svg'; break;
+                            case 'cloudy': icon = 'https://res.cloudinary.com/duqzndv6k/image/upload/v1529373148/svgs%20for%20weather%20app/Cloud.svg'; break;
+                            case 'partly-cloudy-night' : icon = 'https://res.cloudinary.com/duqzndv6k/image/upload/v1529373151/svgs%20for%20weather%20app/Cloud-Moon.svg'; break;
+                            case 'clear-day': icon = 'https://res.cloudinary.com/duqzndv6k/image/upload/v1529373136/svgs%20for%20weather%20app/Sun.svg'; break;
+                            default: icon = 'https://res.cloudinary.com/duqzndv6k/image/upload/v1529373175/svgs%20for%20weather%20app/Compass-South.svg';
                         }
                         switch(days) {
                             case 0: days = 'Sunday'; break;

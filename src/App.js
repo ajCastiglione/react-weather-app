@@ -28,9 +28,12 @@ componentDidMount() {
         let long = pos.coords.longitude;
         this.setState({ lat: lat, long: long }, () => {
           sessionStorage.coords = JSON.stringify([this.state.lat, this.state.long]);
+          this.setState({ getForcast: true }, () => {
+            this.fetchLocation();
+          });
         });
-        this.setState({ getForcast: true });
-        this.fetchLocation();
+        
+        
         
     }, (err) => {console.error(err)}, {enableHighAccuracy: true} );
     let today = new Date().getDay();
