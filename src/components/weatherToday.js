@@ -7,6 +7,8 @@ class WeatherToday extends Component {
     state = {
         today: (sessionStorage.today !== undefined ? JSON.parse(sessionStorage.today) : []),
         fetchForcast: false,
+        lat: localStorage.coords !== undefined ? JSON.parse(localStorage.coords)[0] : this.props.lat,
+        long: localStorage.coords !== undefined ? JSON.parse(localStorage.coords)[1] : this.props.long
     }
 
     componentDidMount() {
@@ -27,7 +29,7 @@ class WeatherToday extends Component {
 
     getToday = () => {
         $.ajax({
-            url: `https://api.darksky.net/forecast/${key}/${this.props.lat},${this.props.long}?exlude=minutely?units=uk2`,
+            url: `https://api.darksky.net/forecast/${key}/${this.state.lat},${this.state.long}?exlude=minutely?units=uk2`,
             dataType: 'JSONP',
             type: 'GET',
             success: function(r) {
